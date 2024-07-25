@@ -1,0 +1,96 @@
+<html>
+<head>
+	<title>Headline</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1"/>
+	<style>
+		:root {
+		--colorHighlight: #ffc0cb;
+		--colorFont: #000;
+		}
+
+		body {
+			margin: 0;
+		}
+
+		.cb-container {
+			display: flex;
+			height: 100vh;
+		}
+
+		@media (orientation: landscape) {
+			.cb-container {
+				flex-direction: row;
+			}
+			.cb-links {
+				max-width: 20vw;
+			}
+		}
+
+		@media (orientation: portrait) {
+			.cb-container {
+				flex-direction: column;
+			}
+		}
+
+		.cb-frame {
+			flex: 1 1 auto;
+		}
+
+		.cb-links {
+			display: flex;
+			flex-direction: column;
+
+			button {
+				margin-right: 0.5em;
+			}
+			a {
+				text-decoration: none;
+				padding: 0.5em;
+				border-top: 1px solid #aaa;
+				color: var(--colorFont);
+
+				&.selected {
+					background-color: var(--colorHighlight);
+				}
+
+				&:last-of-type {
+					border-bottom: 1px solid #aaa;
+				}
+			}
+		}
+	</style>
+	<script type="text/javascript">
+		window.onload = function() {
+			console.log("onload");
+			const cbParent = document.querySelector('.cb-links');
+			for (let elLink of cbParent.querySelectorAll('a')) {
+				elLink.onclick = loadContent;
+
+				// const elCopy = document.createElement('button');
+				// elCopy.text = 'Copy';
+				// elCopy.onclick = () => navigator.clipboard.writeText(elLink.href);
+				// cbParent.insertBefore(elCopy, elLink);
+			}
+		};
+
+		function loadContent(event) {
+			document.querySelector('.cb-frame').src = this.href;
+			for (let elLink of document.querySelectorAll('.cb-links > a')) {
+				if (elLink === event.target) {
+					elLink.classList.add('selected');
+				} else {
+					elLink.classList.remove('selected');
+				}
+			}
+			event.preventDefault();
+		};
+	</script>
+</head>
+<body>
+	<div class="cb-container">
+		<aside class="cb-links">
+			<h1>Headline</h1>
+		</aside>
+		<iframe class="cb-frame"></iframe>
+	</div>
+</body>
