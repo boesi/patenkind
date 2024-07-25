@@ -6,12 +6,12 @@ from pathlib import Path
 import sys
 
 path_base = Path(sys.argv[1] if len(sys.argv) > 1 else '.')
+path_output = path_base.joinpath('static/')
 
 html = path_base.joinpath('src/index.html').open()
 soup = bs(html, 'html.parser')
 html_links = soup.find(class_="cb-links")
 
-path_output = path_base.joinpath('static/')
 pathlist = path_output.joinpath('files/').rglob('*')
 path_output_len = len(path_output.parts)
 for path in pathlist:
