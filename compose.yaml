@@ -5,3 +5,11 @@ services:
       - ./files:/usr/src/app/files
       - ./static:/usr/src/app/static
       - ./src:/usr/src/app/src
+
+  pk-server:
+    image: nginx:stable-alpine-slim
+    ports:
+      - "80:80"
+    volumes:
+      - ./static:/usr/share/nginx/html
+      - ./files:/usr/share/nginx/html/files
