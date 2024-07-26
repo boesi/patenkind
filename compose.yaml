@@ -1,0 +1,7 @@
+services:
+  pk-generator:
+    build: ./generator
+    volumes:
+      - ./files:/usr/src/app/files
+      - ./static:/usr/src/app/static
+      - ./src:/usr/src/app/src
