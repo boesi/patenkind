@@ -11,7 +11,7 @@ html = path_base.joinpath('src/index.html').open()
 soup = bs(html, 'html.parser')
 html_links = soup.find(class_="cb-links")
 
-pathlist = path_base.joinpath('files/').rglob('*')
+pathlist = path_base.joinpath('files/').rglob('[!.]*')
 path_output_len = len(path_base.parts)
 for path in pathlist:
     path_strip = Path().joinpath(*path.parts[path_output_len:])
