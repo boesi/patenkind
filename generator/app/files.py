@@ -11,6 +11,7 @@ html = path_base.joinpath('src/index.html').open()
 soup = bs(html, 'html.parser')
 html_links = soup.find(class_="cb-links")
 
+# ignore dotted (hidden) files, needed for .gitignore, but might be useful for other files too
 pathlist = path_base.joinpath('files/').rglob('[!.]*')
 path_output_len = len(path_base.parts)
 for path in pathlist:
