@@ -16,13 +16,13 @@ services:
     labels:
       com.centurylinklabs.watchtower.enable: true
       traefik.enable: true
-      traefik.http.routers.patenkind.rule: Host(`${PK_DOMAIN}`)
+      traefik.http.routers.patenkind.rule: Host(`${PK_DOMAIN:?Set your domain to environment variable PK_DOMAIN}`)
       traefik.http.routers.patenkind.tls: true
-      traefik.http.routers.patenkind.tls.certresolver: ${TRAEFIK_RESOLVER}
+      traefik.http.routers.patenkind.tls.certresolver: ${TRAEFIK_RESOLVER:-resolver}
     restart: unless-stopped
 
 networks:
   pk_net:
-    name: ${TRAEFIK_NETWORK}
+    name: ${TRAEFIK_NETWORK:-traefik_net}
     external: true
 
