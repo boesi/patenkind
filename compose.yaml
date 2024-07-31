@@ -8,8 +8,21 @@ services:
 
   pk-server:
     image: nginx:stable-alpine-slim
-    ports:
-      - "80:80"
     volumes:
       - ./static:/usr/share/nginx/html
       - ./files:/usr/share/nginx/html/files
+    networks:
+      - pk_net
+    labels:
+      com.centurylinklabs.watchtower.enable: true
+      traefik.enable: true
+      traefik.http.routers.patenkind.rule: Host(`${PK_DOMAIN}`)
+      traefik.http.routers.patenkind.tls: true
+      traefik.http.routers.patenkind.tls.certresolver: ${TRAEFIK_RESOLVER}
+    restart: unless-stopped
+
+networks:
+  pk_net:
+    name: ${TRAEFIK_NETWORK}
+    external: true
+
