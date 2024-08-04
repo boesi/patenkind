@@ -5,6 +5,8 @@ name = "pypi"
 
 [packages]
 beautifulsoup4 = "*"
+strictyaml = "*"
+jinja2 = "*"
 
 [dev-packages]
 
