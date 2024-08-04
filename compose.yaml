@@ -5,6 +5,7 @@ services:
       - ./files:/usr/src/app/files
       - ./static:/usr/src/app/static
       - ./src:/usr/src/app/src
+      - ./generator-config.yaml:/usr/src/app/generator-config.yaml
 
   pk-server:
     image: nginx:stable-alpine-slim
