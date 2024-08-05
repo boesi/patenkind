@@ -2,6 +2,7 @@
 from bs4 import BeautifulSoup as bs
 import os
 from pathlib import Path
+from shutil import copytree
 import sys
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from strictyaml import load, Map, Str
@@ -42,4 +43,5 @@ html = getTemplate(path_src, config)
 html = addFiles(path_base, html)
 
 path_output.joinpath('index.html').write_text(html)
+copytree(path_src.joinpath('assets'), path_output.joinpath('assets'), dirs_exist_ok=True)
 
