@@ -3,31 +3,7 @@
 	<title>{{ headline }}</title>
 	<meta name="viewport" content="width=device-width,initial-scale=1"/>
 	<link href="assets/style.css" rel="stylesheet"/>
-	<script type="text/javascript">
-		window.onload = function() {
-			console.log("onload");
-			const cbParent = document.querySelector('.cb-links');
-			for (let elLink of cbParent.querySelectorAll('a')) {
-				elLink.onclick = loadContent;
-
-				// const elCopy = document.createElement('button');
-				// elCopy.text = 'Copy';
-				// elCopy.onclick = () => navigator.clipboard.writeText(elLink.href);
-				// cbParent.insertBefore(elCopy, elLink);
-			}
-		};
-
-		function loadContent(event) {
-			document.querySelector('.cb-frame').src = this.href;
-			for (let elLink of document.querySelectorAll('.cb-links > a')) {
-				if (elLink === event.target) {
-					elLink.classList.add('selected');
-				} else {
-					elLink.classList.remove('selected');
-				}
-			}
-			event.preventDefault();
-		};
+	<script type="text/javascript" src="assets/script.js">
 	</script>
 </head>
 <body>
