@@ -11,30 +11,35 @@ def getConfig(path):
     schema = Map({'headline': Str()})
     return load(path.joinpath('generator-config.yaml').read_text(encoding='utf8'), schema)
 
+def getTemplate(path, config):
+    env = Environment(
+            loader = FileSystemLoader(path),
+            autoescape = select_autoescape()
+    )
+    template = env.get_template("index.html")
+    return template.render(headline=config['headline'])
+
+def addFiles(path, html):
+    soup = bs(html, 'html.parser')
+    html_links = soup.find(class_="cb-links")
+
+    # ignore dotted (hidden) files, needed for .gitignore, but might be useful for other files too
+    pathlist = path.joinpath('files/').rglob('[!.]*')
+    path_output_len = len(path.parts)
+    for path in pathlist:
+        path_strip = Path().joinpath(*path.parts[path_output_len:])
+        link = soup.new_tag('a', href=str(path_strip))
+        link.string = path_strip.stem
+        html_links.append(link)
+    return str(soup)
+
 path_base = Path(sys.argv[1] if len(sys.argv) > 1 else '.')
 path_output = path_base.joinpath('static/')
+path_src = path_base.joinpath('src/')
 
 config = getConfig(path_base)
+html = getTemplate(path_src, config)
+html = addFiles(path_base, html)
 
-env = Environment(
-        loader = FileSystemLoader(path_base.joinpath("src")),
-        autoescape = select_autoescape()
-)
-template = env.get_template("index.html")
-
-html = template.render(headline=config['headline'])
-# html = path_base.joinpath('src/index.html').open()
-soup = bs(html, 'html.parser')
-html_links = soup.find(class_="cb-links")
-
-# ignore dotted (hidden) files, needed for .gitignore, but might be useful for other files too
-pathlist = path_base.joinpath('files/').rglob('[!.]*')
-path_output_len = len(path_base.parts)
-for path in pathlist:
-    path_strip = Path().joinpath(*path.parts[path_output_len:])
-    link = soup.new_tag('a', href=str(path_strip))
-    link.string = path_strip.stem
-    html_links.append(link)
-
-path_output.joinpath('index.html').write_text(str(soup))
+path_output.joinpath('index.html').write_text(html)
 
