@@ -17,9 +17,9 @@ services:
     labels:
       com.centurylinklabs.watchtower.enable: true
       traefik.enable: true
-      traefik.http.routers.patenkind.rule: Host(`${PK_DOMAIN:?Set your domain to environment variable PK_DOMAIN}`)
-      traefik.http.routers.patenkind.tls: true
-      traefik.http.routers.patenkind.tls.certresolver: ${TRAEFIK_RESOLVER:-resolver}
+      traefik.http.routers.${TRAEFIK_ROUTER:-patenkind}.rule: Host(`${PK_DOMAIN:?Set your domain to environment variable PK_DOMAIN}`)
+      traefik.http.routers.${TRAEFIK_ROUTER:-patenkind}.tls: true
+      traefik.http.routers.${TRAEFIK_ROUTER:-patenkind}.tls.certresolver: ${TRAEFIK_RESOLVER:-resolver}
     restart: unless-stopped
 
 networks:
